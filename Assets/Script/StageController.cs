@@ -10,7 +10,7 @@ public class StageController : MonoBehaviour
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private const int stageWidth = 40;
-    private const int initialStageCount = 5;
+    private const int initialStageCount = 5;//初期に生成されるステージの数
     private List<GameObject> stageListGame = new List<GameObject>();
     void Start()
     {
@@ -32,7 +32,10 @@ public class StageController : MonoBehaviour
                 Destroy(stageListGame[i]);
                 stageListGame.RemoveAt(i);
                 int index = Random.Range(0, stageListGame.Count);
-                GameObject stage = Instantiate(stages[index], new Vector3((stageListGame.Count - 1) * stageWidth, 0, 0),Quaternion.identity);
+                GameObject stage = Instantiate(stages[index], 
+                                               new Vector3((stageListGame.Count - 1) * stageWidth, 0, 0),
+                                               Quaternion.identity);
+                stageListGame.Add(stage);
             }
         }
     }
