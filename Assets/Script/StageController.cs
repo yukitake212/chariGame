@@ -11,31 +11,31 @@ public class StageController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private const int stageWidth = 40;
     private const int initialStageCount = 5;//初期に生成されるステージの数
-    private List<GameObject> stageListGame = new List<GameObject>();
+    private List<GameObject> stageListInGame = new List<GameObject>();
     void Start()
     {
-        stageListGame.Add(initialStage);
+        stageListInGame.Add(initialStage);
         for (int i = 0; i < initialStageCount; i++)
         {
             int index = Random.Range(0, stages.Count);
             GameObject stage = Instantiate(stages[index], new Vector3((i + 1) * stageWidth, 0, 0), Quaternion.identity);
-            stageListGame.Add(stage);
+            stageListInGame.Add(stage);
         }
     }
     private void Update()
     {
-        for (int i =0;i<stageListGame.Count;i++)
+        for (int i =0;i<stageListInGame.Count;i++)
         {
-            stageListGame[i].transform.position += Vector3.left * speed * Time.deltaTime;
-            if (stageListGame[i].transform.position.x < stageWidth * -2)
+            stageListInGame[i].transform.position += Vector3.left * speed * Time.deltaTime;
+            if (stageListInGame[i].transform.position.x < stageWidth * -2)
             {
-                Destroy(stageListGame[i]);
-                stageListGame.RemoveAt(i);
-                int index = Random.Range(0, stageListGame.Count);
+                Destroy(stageListInGame[i]);
+                stageListInGame.RemoveAt(i);
+                int index = Random.Range(0, stages.Count);
                 GameObject stage = Instantiate(stages[index], 
-                                               new Vector3((stageListGame.Count - 1) * stageWidth, 0, 0),
+                                               new Vector3((stageListInGame.Count - 1) * stageWidth, 0, 0),
                                                Quaternion.identity);
-                stageListGame.Add(stage);
+                stageListInGame.Add(stage);
             }
         }
     }

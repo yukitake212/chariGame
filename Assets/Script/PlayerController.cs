@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour
     private PlayerControls playerControls;
     private Rigidbody2D rb;
     private int jumpCount = 0;
+    public bool isGameover = false;
 
     [SerializeField] private float jumpPower = 5.0f;//unityのインスペクターで値を操作できるカプセル化。メソッドからはアクセスできない
     [SerializeField] private Animator anim;
@@ -12,14 +13,23 @@ public class PlayerController : MonoBehaviour
     void Awake()//Start()よりもゲーム起動時の反応が早い
     {
         playerControls = new PlayerControls();
-        playerControls.Enable();
+        
         rb = GetComponent<Rigidbody2D>();
     }
-
-   
+    void Start()
+    {
+        playerControls.Enable();
+    }
+    private void Update()
+    {
+        if(isGameover)
+        {
+            Invoke("Gameover", 1.0f);
+        }
+    }
     private void OnJump()
     {
-        if (jumpCount >= 3)
+        if (jumpCount >= 3 || isGameover)
         {
             return;//
         }
@@ -36,5 +46,14 @@ public class PlayerController : MonoBehaviour
             anim.SetBool("IsJump", false);
         }
 
+    }
+    private void OnTriggerEnter2D()
+    {
+        isGameover = true;
+    }
+    private void Gameover()
+    {
+        playerControls.Disable();
+        UIController.instance.Gameover();
     }
 }
